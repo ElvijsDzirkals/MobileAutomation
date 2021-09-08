@@ -1,4 +1,5 @@
 require 'appium_lib'
+require_relative 'server'
 
 opts = {
   caps: {
@@ -7,6 +8,8 @@ opts = {
     platformName: 'Android',
     udid: 'RF8N205TNHZ',
     browserName: 'Chrome',
+    chromedriverPort: "7000",
+    systemPort: "8201"
   },
   appium_lib: {
     server_url: 'http://localhost:4723/wd/hub'
@@ -14,27 +17,11 @@ opts = {
 }
 
 $driver = Appium::Driver.new(opts,true)
+server = Server.new
+server.start_appium
+server.wait_to_boot
 
-Before do
-  $selenium_driver = $driver.start_driver
-  $selenium_driver.get("https://lv.sportsdirect.com")
-  @screens = Screens.new
-end
-
-After do |scenario|
-  if scenario.failed?
-    add_screenshot(scenario.name)
-    p "Scenario failed:#{scenario.name}"
-  else
-    p "Scenario passed:#{scenario.name}"
-    $driver.quit_driver
-  end
-
-  def add_screenshot(scenario_name)
-    scenario_name.tr!(" ", "_")
-    screenshot_dir = "reports/#{scenario_name}.jpeg"
-    $driver.screenshot(screenshot_dir)
-    attach(screenshot_dir, 'image/jpeg')
-  end
-
+at_exit do
+  server.kill_appium
+  server.kill_chrome_driver
 end
