@@ -1,23 +1,29 @@
 require 'appium_lib'
 require_relative 'server'
 
-opts = {
+server_options = {
+    'port' => ENV['PORT'],
+    'boot_port' => ENV['BOOT_PORT'],
+    'udid' => ENV['UDID']
+}
+
+appium_caps = {
   caps: {
     deviceName: 'Samsung note',
     automationName: 'UiAutomator2',
     platformName: 'Android',
-    udid: 'RF8N205TNHZ',
+    udid: ENV['UDID'],
     browserName: 'Chrome',
-    chromedriverPort: "7000",
-    systemPort: "8201"
+    chromedriverPort: ENV['CHROME_PORT'],
   },
   appium_lib: {
-    server_url: 'http://localhost:4723/wd/hub'
+    server_url: "http://localhost:#{ENV['PORT']}/wd/hub"
   }
 }
 
-$driver = Appium::Driver.new(opts,true)
-server = Server.new
+$driver = Appium::Driver.new(appium_caps,true)
+
+server = Server.new(server_options)
 server.start_appium
 server.wait_to_boot
 

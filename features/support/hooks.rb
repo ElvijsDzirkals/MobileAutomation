@@ -4,12 +4,6 @@ Before do
   @screens = Screens.new
 end
 
-After do |scenario|
-  if scenario.failed?
-    add_screenshot(scenario.name)
-    p "Scenario failed:#{scenario.name}"
-  else
-    p "Scenario passed:#{scenario.name}"
+After do
     $driver.quit_driver
-  end
 end

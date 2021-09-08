@@ -1,3 +1,4 @@
 *.png
 *.jpeg
 .idea
+reports/*.html
