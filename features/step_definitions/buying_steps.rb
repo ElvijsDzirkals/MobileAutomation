@@ -45,9 +45,9 @@ end
 
 And(/^the user bag contains the chosen item and user proceeds to checkout$/) do
   @screens.main_screen.open_cart
-  @screens.main_screen.validate_item_count(1)
   @screens.checkout_screen.validate_product_price(@product_price)
   @screens.checkout_screen.validate_product_description(@product_name, @product_brand)
+  @screens.main_screen.validate_item_count(1)
   @screens.checkout_screen.cart_continue_securely
 end
 
