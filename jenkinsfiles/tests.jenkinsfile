@@ -1,0 +1,121 @@
+pipeline {
+    agent any
+    triggers {
+        pollSCM('*/1 * * * *')
+    }
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    echo "Add steps for building the new app/site"
+                }
+            }
+            post {
+                failure {
+                    script {
+                        sh 'bash send_notification.sh "Building the web app" 1'
+                    }
+                }
+                success {
+                    script {
+                        sh 'bash send_notification.sh "Building the web app" 0'
+                    }
+                }
+            }
+        }
+        stage('Deploy-staging') {
+            steps {
+                script {
+                    deploy("staging")
+                }
+            }
+            post {
+                failure {
+                    script {
+                        sh 'bash send_notification.sh "Deploying to staging" 1'
+                    }
+                }
+                success {
+                    script {
+                        sh 'bash send_notification.sh "Deploying to staging" 0'
+                    }
+                }
+            }
+        }
+        stage('Tests on staging Chrome') {
+            steps {
+                script {
+                    test("staging")
+                }
+            }
+            post {
+                failure {
+                    script {
+                        sh 'bash send_notification.sh "Testing Chrome prod" 1'
+                    }
+                }
+                success {
+                    script {
+                        sh 'bash send_notification.sh "Testing Chrome prod" 0'
+                    }
+                }
+
+            }
+        }
+        stage('Deploy-prod') {
+            steps {
+                script {
+                    deploy("prod")
+                }
+            }
+            post {
+                failure {
+                    script {
+                        sh 'bash send_notification.sh "Deploying to prod" 1'
+                    }
+                }
+                success {
+                    script {
+                        sh 'bash send_notification.sh "Deploying to prod" 0'
+                    }
+                }
+            }
+        }
+        stage('Prod Tests') {
+            steps {
+                script {
+                    test("prod")
+                }
+            }
+            post {
+                failure {
+                    script {
+                        sh 'bash send_notification.sh "Testing Chrome prod" 1'
+                    }
+                }
+                success {
+                    script {
+                        sh 'bash send_notification.sh "Testing Chrome prod" 0'
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            allure includeProperties: false, jdk: '', properties: [
+                [key: '', value: '']
+            ], results: [
+                [path: 'results/*']
+            ]
+        }
+    }
+}
+
+def deploy(String environment) {
+    echo "Deployment to ${environment} triggered..."
+}
+
+def test(String environment) {
+    sh "ruby runner/parallel_runner.rb --env=${environment}"
+}

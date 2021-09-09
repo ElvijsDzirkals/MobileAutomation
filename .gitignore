@@ -1,4 +1,7 @@
 *.png
 *.jpeg
 .idea
-reports/*.html
+reports/allure-results/*
+reports/screenshots/*
+reports/cucumber/*
+logs/appium_logs/*

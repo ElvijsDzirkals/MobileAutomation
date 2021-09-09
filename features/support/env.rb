@@ -1,5 +1,12 @@
 require 'appium_lib'
+require 'cucumber'
+require 'allure-cucumber'
+require 'allure-ruby-commons'
+require 'rspec'
 require_relative 'server'
+
+
+include Allure
 
 server_options = {
     'port' => ENV['PORT'],
@@ -15,11 +22,21 @@ appium_caps = {
     udid: ENV['UDID'],
     browserName: 'Chrome',
     chromedriverPort: ENV['CHROME_PORT'],
+    printPageSourceOnFindFailure: true
   },
   appium_lib: {
     server_url: "http://localhost:#{ENV['PORT']}/wd/hub"
   }
 }
+
+Allure.configure do |config|
+  config.environment_properties = {
+    test: "testing"
+  }
+  config.environment = ENV["ENVIRONMENT"]
+  config.results_directory = "reports/allure-results"
+  config.clean_results_directory = true
+end
 
 $driver = Appium::Driver.new(appium_caps,true)
 
