@@ -89,7 +89,7 @@ ruby main.rb
 ```
 
 ## Jenkins setup
-To run the tests on Jenkins just create a new pipeline job that uses jenkinsfiles from SCM and set the path to:
+To run the tests on Jenkins install [Allure-Jenkins-Plugin](https://www.jenkins.io/doc/pipeline/steps/allure-jenkins-plugin/) and just create a new pipeline job that uses jenkinsfiles from SCM and set the path to:
 ```sh 
 jenkinsfiles/tests.jenkinsfile
 ```

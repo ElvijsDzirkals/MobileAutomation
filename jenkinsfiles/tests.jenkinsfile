@@ -118,5 +118,6 @@ def deploy(String environment) {
 }
 
 def test(String environment) {
+    sh "bundle install"
     sh "ruby main.rb --env=${environment}"
 }
