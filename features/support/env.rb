@@ -9,9 +9,9 @@ include Allure
 
 #Appium server capabilities
 server_options = {
-    'port' => ENV['PORT'],
-    'boot_port' => ENV['BOOT_PORT'],
-    'udid' => ENV['UDID']
+  'port' => ENV['PORT'],
+  'boot_port' => ENV['BOOT_PORT'],
+  'udid' => ENV['UDID']
 }
 
 #Appium driver desired capabilities
@@ -38,7 +38,7 @@ Allure.configure do |config|
   config.clean_results_directory = true
 end
 
-$driver = Appium::Driver.new(appium_caps,true)
+$driver = Appium::Driver.new(appium_caps, true)
 
 server = Server.new(server_options)
 server.start_appium

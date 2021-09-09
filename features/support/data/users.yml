@@ -1,6 +1,23 @@
 ---
 registered_user:
   email: 'testingproof@gmail.com'
-  password:  'password123'
+  password:  'word123pass'
+  first_name: 'Tester'
+  last_name: 'Testinger'
+  address: 'Loka iela 1'
+  town: 'Valmiera'
+  county: 'Vidzeme'
+  postcode: 'LV-2141'
+  phone_number: '234567891'
+  country: 'Latvia'
+
 guest_user:
   email: 'testingtesting@gmail.com'
+  first_name: 'John'
+  last_name: 'Doe'
+  address: 'Skanstes iela 50'
+  town: 'Riga'
+  county: 'Vidzeme'
+  postcode: 'LV-1013'
+  phone_number: '9091001'
+  country: 'Latvia'

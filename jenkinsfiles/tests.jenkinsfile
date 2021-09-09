@@ -60,11 +60,7 @@ pipeline {
                     }
                 }
                 always {
-                    allure includeProperties: false, jdk: '', properties: [
-                        [key: '', value: '']
-                    ], results: [
-                        [path: 'reports/allure-results/*']
-                    ]
+                    allureReport()
                 }
             }
         }
@@ -105,11 +101,7 @@ pipeline {
                     }
                 }
                 always {
-                    allure includeProperties: false, jdk: '', properties: [
-                        [key: '', value: '']
-                    ], results: [
-                        [path: 'reports/allure-results/*']
-                    ]
+                    allureReport()
                 }
             }
         }
@@ -127,5 +119,9 @@ def deploy(String environment) {
 
 def test(String environment) {
     sh "bundle install"
-    sh "ruby main.rb --env=${environment}"
+    sh "ruby main.rb --environment ${environment}"
+}
+
+def allureReport() {
+    allure results: [[path: 'reports/allure-results/*']]
 }

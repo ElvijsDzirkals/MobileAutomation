@@ -67,4 +67,18 @@ class Elements
     get_element.displayed?
   end
 
+  def get_value(timeout: 15)
+    wait_opts = {
+      timeout: timeout,
+      interval: 0.3,
+      message: "Element not found! @Type: #{@type} , value #{@value} , timeout: #{timeout}"
+    }
+    $driver.wait(wait_opts) {
+      $driver.find_element(@type, @value).attribute("value")
+    }
+  end
+
+  def get_attribute(attribute)
+    get_element.attribute(attribute)
+  end
 end
