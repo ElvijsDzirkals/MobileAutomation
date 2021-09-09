@@ -2,7 +2,7 @@ require 'optparse'
 require 'pp'
 require 'ostruct'
 
-# Defines the option parser for running a test.
+# Used to add arguments to ruby main.rb and set values as environment variables for the test.
 class OptParser
 
   def self.parse(args)

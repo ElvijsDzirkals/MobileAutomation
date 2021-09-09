@@ -9,7 +9,7 @@ end
 After do
   Allure.lifecycle.update_test_case do |test_case|
     test_case.history_id = "#{test_case.history_id}#{ENV['UDID']}"
-    test_case.parameters.push(Parameter.new("Device", ENV['DEVICE_NAME']))
+    test_case.parameters.push(Parameter.new("Device", ENV['DEVICE_NAME'].capitalize))
   end
   $driver.quit_driver
 end

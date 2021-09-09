@@ -5,15 +5,16 @@ require 'allure-ruby-commons'
 require 'rspec'
 require_relative 'server'
 
-
 include Allure
 
+#Appium server capabilities
 server_options = {
     'port' => ENV['PORT'],
     'boot_port' => ENV['BOOT_PORT'],
     'udid' => ENV['UDID']
 }
 
+#Appium driver desired capabilities
 appium_caps = {
   caps: {
     deviceName: 'Samsung note',
@@ -31,9 +32,8 @@ appium_caps = {
 
 Allure.configure do |config|
   config.environment_properties = {
-    test: "testing"
+    Environment: ENV['ENVIRONMENT'].capitalize
   }
-  config.environment = ENV["ENVIRONMENT"]
   config.results_directory = "reports/allure-results"
   config.clean_results_directory = true
 end

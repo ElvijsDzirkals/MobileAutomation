@@ -1,5 +1,8 @@
 require_relative 'adb'
 
+#Initializes with options from Optionparser, sets the environment variables for the test run
+#Starts a new thread on a new port for each device so they can run in parallel and then waits for all Threads to finish before exiting
+
 class ParallelRunner
 
   def initialize(options)
