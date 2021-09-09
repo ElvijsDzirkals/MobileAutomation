@@ -1,0 +1,6 @@
+---
+registered_user:
+  email: 'testingproof@gmail.com'
+  password:  'password123'
+guest_user:
+  email: 'testingtesting@gmail.com'

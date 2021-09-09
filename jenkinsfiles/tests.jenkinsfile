@@ -59,7 +59,13 @@ pipeline {
                         sh 'bash send_message.sh "Testing staging" 0'
                     }
                 }
-
+                always {
+                    allure includeProperties: false, jdk: '', properties: [
+                        [key: '', value: '']
+                    ], results: [
+                        [path: 'reports/allure-results/*']
+                    ]
+                }
             }
         }
         stage('Deploy-prod') {
@@ -98,17 +104,19 @@ pipeline {
                         sh 'bash send_message.sh "Testing prod" 0'
                     }
                 }
+                always {
+                    allure includeProperties: false, jdk: '', properties: [
+                        [key: '', value: '']
+                    ], results: [
+                        [path: 'reports/allure-results/*']
+                    ]
+                }
             }
         }
     }
     post {
         always {
             archiveArtifacts artifacts: 'cucumber/*.html ,logs/appium_logs/*.log' , allowEmptyArchive: true
-            allure includeProperties: false, jdk: '', properties: [
-                [key: '', value: '']
-            ], results: [
-                [path: 'reports/allure-results/*']
-            ]
         }
     }
 }
