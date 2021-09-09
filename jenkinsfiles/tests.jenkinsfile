@@ -13,12 +13,12 @@ pipeline {
             post {
                 failure {
                     script {
-                        sh 'bash send_notification.sh "Building the web app" 1'
+                        sh 'bash send_message.sh "Building the web app" 1'
                     }
                 }
                 success {
                     script {
-                        sh 'bash send_notification.sh "Building the web app" 0'
+                        sh 'bash send_message.sh "Building the web app" 0'
                     }
                 }
             }
@@ -32,17 +32,17 @@ pipeline {
             post {
                 failure {
                     script {
-                        sh 'bash send_notification.sh "Deploying to staging" 1'
+                        sh 'bash send_message.sh "Deploying to staging" 1'
                     }
                 }
                 success {
                     script {
-                        sh 'bash send_notification.sh "Deploying to staging" 0'
+                        sh 'bash send_message.sh "Deploying to staging" 0'
                     }
                 }
             }
         }
-        stage('Tests on staging Chrome') {
+        stage('Tests on staging') {
             steps {
                 script {
                     test("staging")
@@ -51,12 +51,12 @@ pipeline {
             post {
                 failure {
                     script {
-                        sh 'bash send_notification.sh "Testing Chrome prod" 1'
+                        sh 'bash send_message.sh "Testing staging" 1'
                     }
                 }
                 success {
                     script {
-                        sh 'bash send_notification.sh "Testing Chrome prod" 0'
+                        sh 'bash send_message.sh "Testing staging" 0'
                     }
                 }
 
@@ -71,12 +71,12 @@ pipeline {
             post {
                 failure {
                     script {
-                        sh 'bash send_notification.sh "Deploying to prod" 1'
+                        sh 'bash send_message.sh "Deploying to prod" 1'
                     }
                 }
                 success {
                     script {
-                        sh 'bash send_notification.sh "Deploying to prod" 0'
+                        sh 'bash send_message.sh "Deploying to prod" 0'
                     }
                 }
             }
@@ -90,12 +90,12 @@ pipeline {
             post {
                 failure {
                     script {
-                        sh 'bash send_notification.sh "Testing Chrome prod" 1'
+                        sh 'bash send_message.sh "Testing prod" 1'
                     }
                 }
                 success {
                     script {
-                        sh 'bash send_notification.sh "Testing Chrome prod" 0'
+                        sh 'bash send_message.sh "Testing prod" 0'
                     }
                 }
             }
@@ -103,6 +103,7 @@ pipeline {
     }
     post {
         always {
+            archiveArtifacts artifacts: 'cucumber/*.html ,logs/appium_logs/*.log' , allowEmptyArchive: true
             allure includeProperties: false, jdk: '', properties: [
                 [key: '', value: '']
             ], results: [
@@ -117,5 +118,5 @@ def deploy(String environment) {
 }
 
 def test(String environment) {
-    sh "ruby runner/parallel_runner.rb --env=${environment}"
+    sh "ruby main.rb --env=${environment}"
 }
