@@ -107,7 +107,7 @@ pipeline {
             allure includeProperties: false, jdk: '', properties: [
                 [key: '', value: '']
             ], results: [
-                [path: 'results/*']
+                [path: 'reports/allure-results/*']
             ]
         }
     }
